@@ -16,3 +16,18 @@ create table Registration(
     PostalCode varchar(250)
 
 );
+
+create table MovieReviews(
+moviename varchar(255),
+moviereview varchar(255)
+);
+
+create table TvShowReviews(
+tvshowname varchar(255),
+tvshowreview varchar(255)
+);
+
+create table GameReviews(
+gamename varchar(255),
+gamereview varchar(255)
+);

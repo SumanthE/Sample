@@ -19,8 +19,47 @@
         .checked {
     color: orange;
 }
-
     </style>
+    <script>
+        function showReview(id, name) {
+            fetch("http://localhost:5000/getTvUserReviews", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name })
+            }).then((response) => {
+                return response.json();
+            }).then(data => {
+                var showReviewLabel = document.getElementById(id);
+                showReviewLabel.style.display = "block";
+                showReviewLabel.innerHTML='';
+                data.forEach(element => {
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode(element.tvshowreview));
+                    showReviewLabel.appendChild(li);
+                });
+            })
+        }
+        function updateReview(id, tid, name) {
+            var review = document.getElementById(tid).value
+            fetch("http://localhost:5000/updateTvReview", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, review: review })
+            }).then((response) => {
+                return response.json();
+            }).then(data => {
+                var showReviewLabel = document.getElementById(id);
+                showReviewLabel.style.display = "block"
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(review));
+                showReviewLabel.appendChild(li);
+            })
+        }
+    </script>
 
 </head>
 
@@ -110,6 +149,15 @@
                         <span class="fa fa-star checked"></span>
                     
                         <p><a href="#" class="btn btn-primary" role="button">Amazon prime</a></p>
+                        <button onclick="showReview('bbr','Breaking Bad')" class="btn btn-primary" type="button">Show Review</button>
+                    <button onclick="updateReview('bbr','bba','Breaking Bad')" class="btn btn-primary"
+                        type="button">Update Review</button>
+                    <ul id="bbr" style="display: none;">
+                    </ul>
+                    <div style="margin-top: 10px;margin-right: 10px;">
+                        <textarea id="bba" rows="4" cols="30"></textarea>
+                    </div>
+
                   
                 </div>
             </div>
@@ -124,6 +172,14 @@
                 <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <p><a href="https://www.netflix.com/watch/70079583?trackId=13752289&tctx=0%2C1%2C1c6acc3ceac72279cc3dc35a151f8cd496d47e59%3Aa033ca41e2880be9a0faa5e8438b3bab109d8840%2C%2C" class="btn btn-primary" role="button">Netflix</a></p>
+                        <button onclick="showReview('fr','Friends')" class="btn btn-primary" type="button">Show Review</button>
+                    <button onclick="updateReview('fr','fa','Friends')" class="btn btn-primary"
+                        type="button">Update Review</button>
+                    <ul id="fr" style="display: none;">
+                    </ul>
+                    <div style="margin-top: 10px;margin-right: 10px;">
+                        <textarea id="fa" rows="4" cols="30"></textarea>
+                    </div>
                     
                 </div>
             </div>
@@ -138,6 +194,14 @@
                 <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <p><a href="#" class="btn btn-primary" role="button">Amazon prime</a></p>
+                        <button onclick="showReview('gtr','Game of Thrones')" class="btn btn-primary" type="button">Show Review</button>
+                    <button onclick="updateReview('gtr','gta','Game of Thrones')" class="btn btn-primary"
+                        type="button">Update Review</button>
+                    <ul id="gtr" style="display: none;">
+                    </ul>
+                    <div style="margin-top: 10px;margin-right: 10px;">
+                        <textarea id="gta" rows="4" cols="30"></textarea>
+                    </div>
                     
                 </div>
             </div>
@@ -152,6 +216,14 @@
                 <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <p><a href="https://www.netflix.com/watch/70131314?trackId=13752289&tctx=0%2C0%2C933329768f47867be0ed539c338d0ef5345ac661%3A00edc516a2e97762fc3a5ae1af55e11b210af96d%2C%2C" class="btn btn-primary" role="button">Netflix</a></p>
+                        <button onclick="showReview('per','Planet Earth')" class="btn btn-primary" type="button">Show Review</button>
+                    <button onclick="updateReview('per','pea','Planet Earth')" class="btn btn-primary"
+                        type="button">Update Review</button>
+                    <ul id="per" style="display: none;">
+                    </ul>
+                    <div style="margin-top: 10px;margin-right: 10px;">
+                        <textarea id="pea" rows="4" cols="30"></textarea>
+                    </div>
                     
                 </div>
             </div>

@@ -10,18 +10,58 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
         .wrap {
             width: 800px;
             margin: 30px auto;
         }
+
         .checked {
-    color: orange;
-}
-
+            color: orange;
+        }
     </style>
-
+    <script>
+        function showReview(id, name) {
+            fetch("http://localhost:5000/getUserReviews", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name })
+            }).then((response) => {
+                return response.json();
+            }).then(data => {
+                var showReviewLabel = document.getElementById(id);
+                showReviewLabel.style.display = "block";
+                showReviewLabel.innerHTML='';
+                data.forEach(element => {
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode(element.moviereview));
+                    showReviewLabel.appendChild(li);
+                });
+            })
+        }
+        function updateReview(id, tid, name) {
+            var review = document.getElementById(tid).value
+            fetch("http://localhost:5000/updateReview", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, review: review })
+            }).then((response) => {
+                return response.json();
+            }).then(data => {
+                var showReviewLabel = document.getElementById(id);
+                showReviewLabel.style.display = "block"
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(review));
+                showReviewLabel.appendChild(li);
+            })
+        }
+    </script>
 </head>
 
 <body>
@@ -40,7 +80,8 @@
                     <a class="nav-link" href="About%20Us.html">About</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">Reviews</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown">Reviews</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="Movies.html">Movie Reviews</a>
                         <div class="dropdown-divider"></div>
@@ -103,14 +144,21 @@
                 <div class="thumbnail">
                     <img src="Images/Shawshank.jpg" alt="Shawshank Redemption">
                     <br>
-                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                    
-                        <p><a href="#" class="btn btn-primary" role="button">Amazon prime</a></p>
-                  
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+
+                    <p><a href="#" class="btn btn-primary" role="button">Amazon prime</a></p>
+                    <button onclick="showReview('srr','Shawshank Redemption')" class="btn btn-primary" type="button">Show Review</button>
+                    <button onclick="updateReview('srr','sra','Shawshank Redemption')" class="btn btn-primary"
+                        type="button">Update Review</button>
+                    <ul id="srr" style="display: none;">
+                    </ul>
+                    <div style="margin-top: 10px;margin-right: 10px;">
+                        <textarea id="sra" rows="4" cols="30"></textarea>
+                    </div>
                 </div>
             </div>
 
@@ -119,26 +167,41 @@
                     <img src="Images/dark%20knight.jpg" alt="Dark Knight">
                     <br>
                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <p><a href="https://www.netflix.com/watch/70079583?trackId=13752289&tctx=0%2C1%2C1c6acc3ceac72279cc3dc35a151f8cd496d47e59%3Aa033ca41e2880be9a0faa5e8438b3bab109d8840%2C%2C" class="btn btn-primary" role="button">Netflix</a></p>
-                    
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <p><a href="https://www.netflix.com/watch/70079583?trackId=13752289&tctx=0%2C1%2C1c6acc3ceac72279cc3dc35a151f8cd496d47e59%3Aa033ca41e2880be9a0faa5e8438b3bab109d8840%2C%2C"
+                            class="btn btn-primary" role="button">Netflix</a></p>
+                    <button onclick="showReview('dkr','Dark Knight')" class="btn btn-primary" type="button">Show Review</button>
+                    <button onclick="updateReview('dkr','dka','Dark Knight')" class="btn btn-primary"
+                        type="button">Update Review</button>
+                    <ul id="dkr" style="display: none;">
+                    </ul>
+                    <div style="margin-top: 10px;margin-right: 10px;">
+                        <textarea id="dka" rows="4" cols="30"></textarea>
+                    </div>
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div class="thumbnail">
                     <img src="Images/god%20father.jpg" alt="God Father">
-                   <br>
+                    <br>
                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <p><a href="#" class="btn btn-primary" role="button">Amazon prime</a></p>
-                    
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <p><a href="#" class="btn btn-primary" role="button">Amazon prime</a></p>
+                    <button onclick="showReview('gfr','God Father')" class="btn btn-primary" type="button">Show Review</button>
+                    <button onclick="updateReview('gfr','gfa','God Father')" class="btn btn-primary"
+                        type="button">Update Review</button>
+                    <ul id="gfr" style="display: none;">
+                    </ul>
+                    <div style="margin-top: 10px;margin-right: 10px;">
+                        <textarea id="gfa" rows="4" cols="30"></textarea>
+                    </div>
                 </div>
             </div>
 
@@ -147,12 +210,20 @@
                     <img src="Images/Inception.jpg" alt="Inception">
                     <br>
                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <p><a href="https://www.netflix.com/watch/70131314?trackId=13752289&tctx=0%2C0%2C933329768f47867be0ed539c338d0ef5345ac661%3A00edc516a2e97762fc3a5ae1af55e11b210af96d%2C%2C" class="btn btn-primary" role="button">Netflix</a></p>
-                    
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <p><a href="https://www.netflix.com/watch/70131314?trackId=13752289&tctx=0%2C0%2C933329768f47867be0ed539c338d0ef5345ac661%3A00edc516a2e97762fc3a5ae1af55e11b210af96d%2C%2C"
+                            class="btn btn-primary" role="button">Netflix</a></p>
+                            <button onclick="showReview('ir','Inception')" class="btn btn-primary" type="button">Show Review</button>
+                            <button onclick="updateReview('ir','ia','Inception')" class="btn btn-primary"
+                                type="button">Update Review</button>
+                            <ul id="ir" style="display: none;">
+                            </ul>
+                            <div style="margin-top: 10px;margin-right: 10px;">
+                                <textarea id="ia" rows="4" cols="30"></textarea>
+                            </div>
                 </div>
             </div>
         </div>
@@ -166,24 +237,24 @@
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div class="thumbnail">
                     <img src="Images/birds%20of%20prey.jpg" alt="Birds of Prey">
-                   <br>
+                    <br>
                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div class="thumbnail">
                     <img src="Images/Sonic.jpg" alt="Sonic">
-                   <br>
+                    <br>
                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
                 </div>
             </div>
 
@@ -192,10 +263,10 @@
                     <img src="Images/call%20of%20wild.jpg" alt="Call of Wild">
                     <br>
                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
                 </div>
             </div>
 
@@ -204,15 +275,15 @@
                     <img src="Images/emperor.jpg" alt="Emperor">
                     <br>
                     <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
                 </div>
             </div>
         </div>
         <br>
-         <center>
+        <center>
             <h3 style="color: red">Coming Soon</h3>
         </center>
         <br>
@@ -221,28 +292,28 @@
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div class="thumbnail">
                     <img src="Images/the%20secret%20top%20rated.jpg" alt="The Secret">
-                    
+
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div class="thumbnail">
                     <img src="Images/Green%20rush.jpg" alt="Green Rush">
-                   
+
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div class="thumbnail">
                     <img src="Images/Trolls%20world%20tour.jpg" alt="Trolls World Tour">
-                   
+
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div class="thumbnail">
                     <img src="Images/charm%20city%20kings.jpg" alt="Charm City Kings">
-                    
+
                 </div>
             </div>
         </div>
@@ -254,7 +325,9 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-12 segment-one md-mb-30 sm-mb-30">
                         <h3>Review Spot</h3>
-                        <p>Review spot is dedicated to improving the lives of kids and families by providing the trustworthy information on movies, tv shows, games and music they need to thrive in the 21st century.</p>
+                        <p>Review spot is dedicated to improving the lives of kids and families by providing the
+                            trustworthy information on movies, tv shows, games and music they need to thrive in the 21st
+                            century.</p>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12 segment-two md-mb-30 sm-mb-30">
                         <ul>

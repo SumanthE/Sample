@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="css/style2.css">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <style>
         .wrap {
@@ -36,6 +37,47 @@
             vertical-align: middle;
         }
     </style>
+    <script>
+        function showReview(id, name) {
+            fetch("http://localhost:5000/getGameUserReviews", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name })
+            }).then((response) => {
+                return response.json();
+            }).then(data => {
+                var showReviewLabel = document.getElementById(id);
+                showReviewLabel.style.display = "block";
+                showReviewLabel.innerHTML='';
+                data.forEach(element => {
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode(element.gamereview));
+                    showReviewLabel.appendChild(li);
+                });
+            })
+        }
+        function updateReview(id, tid, name) {
+            var review = document.getElementById(tid).value
+            fetch("http://localhost:5000/updateGameReview", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, review: review })
+            }).then((response) => {
+                return response.json();
+            }).then(data => {
+                var showReviewLabel = document.getElementById(id);
+                showReviewLabel.style.display = "block"
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(review));
+                showReviewLabel.appendChild(li);
+            })
+        }
+    </script>
+
 </head>
 
 <body>
@@ -54,7 +96,8 @@
                     <a class="nav-link" href="About%20Us.html">About</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">Reviews</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown">Reviews</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="Movies.html">Movie Reviews</a>
                         <div class="dropdown-divider"></div>
@@ -120,7 +163,7 @@
                             <th scope="col">Review</th>
                             <th scope="col">Release Date</th>
                             <th scope="col">Rating</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -129,40 +172,85 @@
                             <td class="w-25">
                                 <img src="Images/red.jfif" class="img-fluid img-thumbnail" alt="Sheep">
                             </td>
-                            <td>Bootstrap 4 CDN and Starter Template</td>
+                            <td>
+                                <button onclick="showReview('rdr','Red Dead Redemption')" class="btn btn-primary"
+                                    type="button">Show Review</button>
+                                <button onclick="updateReview('rdr','rda','Red Dead Redemption')" class="btn btn-primary"
+                                    type="button">Update Review</button>
+                                <ul id="rdr" style="display: none;">
+                                </ul>
+                                <div style="margin-top: 10px;margin-right: 10px;">
+                                    <textarea id="rda" rows="4" cols="30"></textarea>
+                                </div>
+
+                            </td>
                             <td>Cristina</td>
                             <td>913</td>
-                            
+
                         </tr>
                         <tr>
                             <th scope="row">Fortnite</th>
                             <td class="w-25">
                                 <img src="Images/Fornite.jpg" class="img-fluid img-thumbnail" alt="Sheep">
                             </td>
-                            <td>Bootstrap Grid 4 Tutorial and Examples</td>
+                            <td>
+                                <button onclick="showReview('fr','Fortnite')" class="btn btn-primary"
+                                    type="button">Show Review</button>
+                                <button onclick="updateReview('fr','fa','Fortnite')" class="btn btn-primary"
+                                    type="button">Update Review</button>
+                                <ul id="fr" style="display: none;">
+                                </ul>
+                                <div style="margin-top: 10px;margin-right: 10px;">
+                                    <textarea id="fa" rows="4" cols="30"></textarea>
+                                </div>
+
+                            </td>
                             <td>Cristina</td>
                             <td>1.434</td>
-                            
+
                         </tr>
                         <tr>
                             <th scope="row">Uncharted</th>
                             <td class="w-25">
                                 <img src="Images/Uncharted.jpg" class="img-fluid img-thumbnail" alt="Sheep">
                             </td>
-                            <td>Bootstrap Grid 4 Tutorial and Examples</td>
+                            <td>
+                                <button onclick="showReview('ur','Uncharted')" class="btn btn-primary"
+                                    type="button">Show Review</button>
+                                <button onclick="updateReview('ur','ua','Uncharted')" class="btn btn-primary"
+                                    type="button">Update Review</button>
+                                <ul id="ur" style="display: none;">
+                                </ul>
+                                <div style="margin-top: 10px;margin-right: 10px;">
+                                    <textarea id="ua" rows="4" cols="30"></textarea>
+                                </div>
+
+                            </td>
                             <td>Cristina</td>
                             <td>1.434</td>
-                            
+
                         </tr>
                         <tr>
                             <th scope="row">Gran Tourism Sport</th>
                             <td class="w-25">
-                                <img src="Images/Gran%20Tourism%20Sport.jpg" class="img-fluid img-thumbnail" alt="Sheep">
+                                <img src="Images/Gran%20Tourism%20Sport.jpg" class="img-fluid img-thumbnail"
+                                    alt="Sheep">
                             </td>
-                            <td>Bootstrap Grid 4 Tutorial and Examples</td>
+                            <td>
+                                <button onclick="showReview('gtr','Gran Tourism')" class="btn btn-primary"
+                                    type="button">Show Review</button>
+                                <button onclick="updateReview('gtr','gta','Gran Tourism')" class="btn btn-primary"
+                                    type="button">Update Review</button>
+                                <ul id="gtr" style="display: none;">
+                                </ul>
+                                <div style="margin-top: 10px;margin-right: 10px;">
+                                    <textarea id="gta" rows="4" cols="30"></textarea>
+                                </div>
+
+                            </td>
                             <td>Cristina</td>
                             <td>1.434</td>
-                            
+
                         </tr>
                     </tbody>
                 </table>
@@ -177,7 +265,9 @@
 
                     <div class="col-md-3 col-sm-6 col-xs-12 segment-one md-mb-30 sm-mb-30">
                         <h3>Review Spot</h3>
-                        <p>Review spot is dedicated to improving the lives of kids and families by providing the trustworthy information on movies, tv shows, games and music they need to thrive in the 21st century.</p>
+                        <p>Review spot is dedicated to improving the lives of kids and families by providing the
+                            trustworthy information on movies, tv shows, games and music they need to thrive in the 21st
+                            century.</p>
                     </div>
 
 
@@ -218,4 +308,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-</body></html>
+</body>
+
+</html>

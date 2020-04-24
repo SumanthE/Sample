@@ -96,6 +96,95 @@ app.post('/createAccount', async function(request, response) {
 }
 })
 
+app.post('/getUserReviews', async function(request, response) {
+  try {
+    var name= request.body.name;
+    pool.query('select * from MovieReviews where moviename=(?)',[name], function (error, results, fields) {
+      if (error) throw error;
+      response.send(results);
+    });
+} catch (err) {
+  console.log('failure');
+  console.log(err);
+   response.send(false);
+}
+})
+
+app.post('/updateReview', async function(request, response) {
+  try {
+    var name= request.body.name;
+    var review = request.body.review
+    pool.query('insert into MovieReviews values(?,?)',[name,review], function (error, results, fields) {
+      if (error) throw error;
+      response.send(results);
+    });
+} catch (err) {
+  console.log('failure');
+  console.log(err);
+   response.send(false);
+}
+})
+
+app.post('/getTvUserReviews', async function(request, response) {
+  try {
+    var name= request.body.name;
+    pool.query('select * from TvShowReviews where tvshowname=(?)',[name], function (error, results, fields) {
+      if (error) throw error;
+      response.send(results);
+    });
+} catch (err) {
+  console.log('failure');
+  console.log(err);
+   response.send(false);
+}
+})
+
+app.post('/updateTvReview', async function(request, response) {
+  try {
+    var name= request.body.name;
+    var review = request.body.review
+    pool.query('insert into TvShowReviews values(?,?)',[name,review], function (error, results, fields) {
+      if (error) throw error;
+      response.send(results);
+    });
+} catch (err) {
+  console.log('failure');
+  console.log(err);
+   response.send(false);
+}
+})
+
+app.post('/getGameUserReviews', async function(request, response) {
+  try {
+    var name= request.body.name;
+    pool.query('select * from GameReviews where gamename=(?)',[name], function (error, results, fields) {
+      if (error) throw error;
+      response.send(results);
+    });
+} catch (err) {
+  console.log('failure');
+  console.log(err);
+   response.send(false);
+}
+})
+
+app.post('/updateGameReview', async function(request, response) {
+  try {
+    var name= request.body.name;
+    var review = request.body.review
+    pool.query('insert into GameReviews values(?,?)',[name,review], function (error, results, fields) {
+      if (error) throw error;
+      response.send(results);
+    });
+} catch (err) {
+  console.log('failure');
+  console.log(err);
+   response.send(false);
+}
+})
+
+
+
 app.post('/login',  function (req, res) {
   res.send('welcome, ' + req.body.username)
 })
@@ -107,5 +196,3 @@ app.post('/register', function (req, res) {
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
-
-
